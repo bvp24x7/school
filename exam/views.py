@@ -115,7 +115,7 @@ def questionView(request,pk):
     qzr = QuizRecords()
     qzr.student = stud
     qzr.quiz = quiz
-    # qzr.start_time = timezone.now()
+    qzr.start_time = timezone.now()
     qzr.save()
     all_questions = Question.objects.filter(quiz_id=quiz.id)
 
