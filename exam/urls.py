@@ -7,8 +7,7 @@ urlpatterns = [
     path('dashboard/',views.dashboard, name='dashboard'),
     path('question/<str:pk>/',views.questionView, name='question'),
     path('quest/<str:quiz>/<str:stud>/', views.nextquestion, name='quest'),
-    path('answered/',views.answeredView, name='answered'),
-    path('completed/',views.submittedView, name='completed'),
+    
 
     path('createquiz/', views.createQuiz, name='createquiz'),
     path('createquestion/', views.createQuestion, name = 'createquestion'),

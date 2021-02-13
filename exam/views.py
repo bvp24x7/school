@@ -4,8 +4,9 @@ from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-
+from django.utils import timezone
 from django.contrib import messages
+# import datetime
 # from datetime import timezone
 from .models import *
 from .forms import *
@@ -114,7 +115,7 @@ def questionView(request,pk):
     qzr = QuizRecords()
     qzr.student = stud
     qzr.quiz = quiz
-    # qzr.start_time = timezone.now()
+    qzr.start_time = timezone.now()
     qzr.save()
     all_questions = Question.objects.filter(quiz_id=quiz.id)
 
@@ -156,23 +157,18 @@ def nextquestion(request,stud,quiz):
             total_questions = Question_Records.objects.filter(quiz_record=quzrec).count()
             correct_answer = Question_Records.objects.filter(quiz_record=quzrec,correct=True).count()
             quzrec.marks = correct_answer 
-            # stime = quzrec.start_time
+            stime = quzrec.start_time
 
-            # time_taken = timezone.now() - stime
-            # print(round(time_taken,2))
+            time_taken = timezone.now() - stime
+            # print((time_taken,2))
+            # print(time_taken[0:4])
             
 
             if total_questions/2 <=correct_answer:
                 result = "pass"
             else:
                 result = "fail"
-            context={'finished':True,"total_question":total_questions,"correct_answered":correct_answer,"result":result}    
+            context={'finished':True,"total_question":total_questions,"correct_answered":correct_answer,"result":result,'time_taken':time_taken}    
             print(context)            
     return render(request, 'exam/questioned.html', context)
 
-@login_required(login_url='login')
-def answeredView(request):
-    return render(request, 'exam/answered.html')
-@login_required(login_url='login')
-def submittedView(request):
-    return render(request, 'exam/submitted.html')

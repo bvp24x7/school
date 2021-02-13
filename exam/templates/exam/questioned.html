@@ -25,7 +25,7 @@
     <p>Total Questions : {{total_question}}</p>
     <p>Total correct answers : {{correct_answered}}</p><br>
     <p>Your Result is {{result}}</p>
-    {% comment %} <p>Time taken : {{time_taken}}</p> {% endcomment %}
+    <p>Time taken : {{time_taken}}</p>
 
     {% else %}
     {{question.content}}
@@ -46,10 +46,10 @@
 {% else %}    
 
         {% if dso %}
-        <p>Correct</p>
+        <p style="color:blue">Hurray! Correct</p>
         <a href = "{% url 'quest' quiz stud %}">next</a>
         {% else %}
-        <p>{{exp}}</p>
+        <p style="color:red">{{exp}}</p>
        <a href = "{% url 'quest' quiz stud %}">next</a>
         {% endif %}
         <br>
