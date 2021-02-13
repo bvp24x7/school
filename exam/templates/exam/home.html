@@ -1,0 +1,18 @@
+{% extends 'exam/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p>Hope you enjoy our service
+Some useful Links: </p>
+<a href = "{% url 'dashboard' %}">Dashboard</a><br>
+<a href = "{% url 'createquiz' %}">Create Quiz</a><br>
+<a href = "{% url 'createquestion' %}">Create Questions</a><br>
+<a href = "{% url 'createoptions' %}">Create Options</a><br>
+
+
+
+{% else %}
+    <a href = "{% url 'login' %}">Login </a>
+    <a href = "{% url 'register' %}">Register</a>
+{% endif %}
+{% endblock content %}

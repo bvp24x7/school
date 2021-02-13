@@ -1,0 +1,81 @@
+{% extends 'exam/base.html' %}
+ 
+{% block script %}
+<script type="text/javascript">
+    {% comment %} function ans()
+     {
+        ansdisp=document.querySelector('input[name=ansed]:checked').value;
+        
+        document.querySelector('#selectedd').textContent=' The selected option is '+ansdisp;
+
+    }  {% endcomment %}
+    function disableButton(btn){
+		document.getElementById(btn.id).disabled = true;
+         
+    }
+</script>
+{% endblock script %}
+
+{% block content %}
+<form method='POST'>
+{% csrf_token %}
+    {% if finished  %}
+
+    <p>completed successfully</p>
+    <p>Total Questions : {{total_question}}</p>
+    <p>Total correct answers : {{correct_answered}}</p><br>
+    <p>Your Result is {{result}}</p>
+    {% comment %} <p>Time taken : {{time_taken}}</p> {% endcomment %}
+
+    {% else %}
+    {{question.content}}
+    <br>
+      <form method= "POST" >
+        {% for o in option %}
+        <input type='radio' value='{{o.id}}' name='ansed'>{{o}}<br>
+        {% endfor %}
+        <input type = 'hidden' value='{{quzrec}}' name='quzrec'>
+        <input type = 'hidden' value='{{question.id}}' name='question_id'>
+        <input type = 'hidden' value='{{stud}}' name='stud'>
+        {% comment %} <textarea name="answer" placeholder="type the answer"></textarea>{% endcomment %}       
+        {% if not submitted  %}
+        <input type="submit" value="submit" id = 'btn1' >
+
+        </form>
+        <b id='selectedd'></b>
+{% else %}    
+
+        {% if dso %}
+        <p>Correct</p>
+        <a href = "{% url 'quest' quiz stud %}">next</a>
+        {% else %}
+        <p>{{exp}}</p>
+       <a href = "{% url 'quest' quiz stud %}">next</a>
+        {% endif %}
+        <br>
+        {% endif %}
+
+        {% endif %}
+{% endblock content %}
+
+<script type="text/javascript" language="javascript">
+    function ValidateIt() {
+      if (document.getElementById('ddlProblemCategory').value == 0) {
+           alert("Please fill some value");
+           return false;
+      }
+           return true;
+    }
+    function DisableIt() {
+        if (ValidateIt() == true)
+          document.getElementById('btnSaveProblem').disabled = true;
+    }  
+</script> 
+{% comment %} {% block content %}
+{% for q in all_questions  %}
+{{q}}<br>
+{% for o in option %}
+{{o}}<br>
+{% endfor %}
+{% endfor %}
+{% endblock content %} {% endcomment %}

@@ -1,0 +1,9 @@
+{% extends 'exam/base.html' %}
+
+{% block content %}
+{% for q in quizs %}
+<a href="{% url 'question' q.id%}">name : {{q.name}}</a>
+<p>subject : {{q.subject}}</p>
+<p>standard : {{q.standard}}</p>
+{% endfor %}
+{% endblock content %}
