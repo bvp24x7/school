@@ -168,7 +168,7 @@ def nextquestion(request,stud,quiz):
                 result = "pass"
             else:
                 result = "fail"
-            context={'finished':True,"total_question":total_questions,"correct_answered":correct_answer,"result":result,'time_taken':time_taken}    
+            context={'finished':True,"total_question":total_questions,"correct_answered":correct_answer,"result":result}    
             print(context)            
     return render(request, 'exam/questioned.html', context)
 
