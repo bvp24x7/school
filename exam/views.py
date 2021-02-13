@@ -115,7 +115,7 @@ def questionView(request,pk):
     qzr = QuizRecords()
     qzr.student = stud
     qzr.quiz = quiz
-    qzr.start_time = timezone.now()
+    # qzr.start_time = timezone.now()
     qzr.save()
     all_questions = Question.objects.filter(quiz_id=quiz.id)
 
@@ -157,9 +157,9 @@ def nextquestion(request,stud,quiz):
             total_questions = Question_Records.objects.filter(quiz_record=quzrec).count()
             correct_answer = Question_Records.objects.filter(quiz_record=quzrec,correct=True).count()
             quzrec.marks = correct_answer 
-            stime = quzrec.start_time
+            # stime = quzrec.start_time
 
-            time_taken = timezone.now() - stime
+            # time_taken = timezone.now() - stime
             # print((time_taken,2))
             # print(time_taken[0:4])
             
