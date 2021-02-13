@@ -24,7 +24,7 @@ class Quiz(models.Model):
     time            = models.TimeField( auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.name
 
 class Question(models.Model):
 
@@ -56,7 +56,6 @@ class QuizRecords(models.Model):
     quiz            = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     marks           = models.IntegerField(default=0) 
     start_time      = models.DateTimeField(null=True)
-    # end_time        = models.DateTimeField(null=True) 
 
     def __str__(self):
         return self.student.enrollment

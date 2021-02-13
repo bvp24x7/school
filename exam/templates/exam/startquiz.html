@@ -4,12 +4,22 @@
 {% block content %}
 <form method='POST'>
 {% csrf_token %}
-    {% comment %} <iframe src="http://free.timeanddate.com/countdown/i7mfvwgp/n1785/cf12/cm0/cu4/ct0/cs0/ca0/cr0/ss0/cac000/cpc000/pcfff/tcfff/fs100/szw320/szh135/tatTime%20left%20to%20Event%20in/tac000/tptTime%20since%20Event%20started%20in/tpc000/mac000/mpc000/iso2021-01-07T00:00:00" allowTransparency="true" frameborder="0" width="150" height="68"></iframe> {% endcomment %}
+{% if attempted %}
+<h4>Your Results</h4>
+{% for z in q %}
+Quiz : {{z.quiz}}<br>
+Marks : {{z.marks}}<br>
+Completed : {{z.completed}}<br>
+{% endfor %}
+
+
+{% else %}
 <p>rules for quiz</p>
 <p>please answer all the questions<br>Make sure you are prepared and have good internet connectivity before starting the quiz <br>You can attend the quiz only one time.<br>If you land into any errors please contact the support</p>
     <button>
     <a class = 'btn btn-primary' href = "{% url 'quest' quiz stud %}">
 	<span>start quiz</span></a>
 </button>
+{% endif %}
 {% endblock content %}
 

@@ -2,13 +2,7 @@
  
 {% block script %}
 <script type="text/javascript">
-    {% comment %} function ans()
-     {
-        ansdisp=document.querySelector('input[name=ansed]:checked').value;
-        
-        document.querySelector('#selectedd').textContent=' The selected option is '+ansdisp;
-
-    }  {% endcomment %}
+    
     function disableButton(btn){
 		document.getElementById(btn.id).disabled = true;
          
@@ -37,7 +31,6 @@
         <input type = 'hidden' value='{{quzrec}}' name='quzrec'>
         <input type = 'hidden' value='{{question.id}}' name='question_id'>
         <input type = 'hidden' value='{{stud}}' name='stud'>
-        {% comment %} <textarea name="answer" placeholder="type the answer"></textarea>{% endcomment %}       
         {% if not submitted  %}
         <input type="submit" value="submit" id = 'btn1' >
 
@@ -71,11 +64,3 @@
           document.getElementById('btnSaveProblem').disabled = true;
     }  
 </script> 
-{% comment %} {% block content %}
-{% for q in all_questions  %}
-{{q}}<br>
-{% for o in option %}
-{{o}}<br>
-{% endfor %}
-{% endfor %}
-{% endblock content %} {% endcomment %}

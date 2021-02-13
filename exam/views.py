@@ -29,50 +29,53 @@ def register(request):
         print('form2', form2.is_valid())
 
         if form1.is_valid() and form2.is_valid():
-            
             user=form1.save()
             user.save()
             f2=form2.save(commit=False)
             f2.user=user
             user2=f2.save()
-            
             return redirect('login')
 
     context = {'form1': form1, 'form2':form2}
-
     return render(request, 'exam/register.html', context)
 
 
 def logIn(request):
+
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect('dashboard')
-
 
         else:
             messages.info(request, 'Username or Password is incorrect')
             return render(request, 'exam/login.html')
 
     context = {}
-   
     return render(request, 'exam/login.html',context)
+
 
 def logOut(request):
     logout(request)
     return redirect('home')
 
+
 @login_required(login_url='login')  
 def createQuiz(request):
     form = QuizForm(request.POST)
+
     if request.method == 'POST':
         form.save()
+        messages.info(request,'Quiz created')
     context = {'form' : form }
 
     return render(request, 'exam/createe.html' , context)
+
+
 @login_required(login_url='login')
 def createQuestion(request):
     form = QuestionForm(request.POST)
@@ -81,25 +84,32 @@ def createQuestion(request):
         if form.is_valid():
             
             form.save()
+            messages.info(request,'Question created')
     
 
     context = {'form' : form }
     return render(request, 'exam/createe.html', context )
+
+
 @login_required(login_url='login')
 def createOptions(request):
+
     form = OptionsForm(request.POST)
+
     if request.method == 'POST':
         form.save()
+        messages.info(request,'Option created')
     context = {'form' : form }
 
     return render(request, 'exam/createe.html' , context)
+
+
 @login_required(login_url='login')
 def dashboard(request):
     
     uuu= Student.objects.filter(user_id=request.user.id).values() 
     std = uuu.values('standard')[0]['standard']   
     quizs = Quiz.objects.filter(standard=std)
-    # QuizRecords.objects.filter(student = )
     
     context={'quizs':quizs}
     return render(request,'exam/loggedin.html',context)
@@ -109,8 +119,16 @@ def dashboard(request):
 def questionView(request,pk):
     
     quiz = Quiz.objects.get(id=pk)
+    qz = quiz.id
     uid = request.user.id
     stud = Student.objects.get(user_id=uid)
+    print('stud',stud)
+    print('qz',qz)
+    print(QuizRecords.objects.filter(student_id=stud,quiz_id=qz).exists())
+    if QuizRecords.objects.filter(student_id=stud,quiz_id=qz).exists():
+        q = QuizRecords.objects.filter(student_id=stud,quiz_id=qz)
+        context = {'attempted': True, 'q':q }
+        return render(request, 'exam/startquiz.html',context)
 
     qzr = QuizRecords()
     qzr.student = stud
@@ -125,14 +143,12 @@ def questionView(request,pk):
         qurc.question = each_questions
         qurc.save()
 
-    context={'quiz':quiz,'stud':stud}
+    context={'quiz':qz,'stud':stud}
     return render(request, 'exam/startquiz.html',context)
 
 
 @login_required(login_url='login')
 def nextquestion(request,stud,quiz):
-
-
 
     if request.method=='POST':
         print('hellllllllllllllllllo',request.POST)
@@ -145,24 +161,26 @@ def nextquestion(request,stud,quiz):
         dso = opted.correct
         Question_Records.objects.filter(quiz_record_id=quizrec,question_id=question_id).update(answer=opted.content,answered=True,correct=dso)
         context = {'dso': dso, 'exp':exp,'submitted':True,'quiz':quiz,'stud':stud, 'question' : question,'option' : option,'finished':False}
+    
     else:
-        quzrec = QuizRecords.objects.get(student=stud,quiz=quiz)
+        quzrec = QuizRecords.objects.get(student=stud,quiz_id=quiz)
         qstrec = Question_Records.objects.filter(quiz_record=quzrec,answered=False)
+        
         if qstrec:
             question = Question.objects.get(id=qstrec[0].question.id)
             option = Options.objects.filter(question_id=question.id)
             context={'question' : question, 'option' : option,'quiz':quiz,'stud':stud,'quzrec':quzrec.id,'finished':False}
+        
         else:
             quzrec.completed = True
+            
             total_questions = Question_Records.objects.filter(quiz_record=quzrec).count()
             correct_answer = Question_Records.objects.filter(quiz_record=quzrec,correct=True).count()
             quzrec.marks = correct_answer 
+            quzrec.save()
             stime = quzrec.start_time
-
             time_taken = timezone.now() - stime
-            # print((time_taken,2))
-            # print(time_taken[0:4])
-            
+
 
             if total_questions/2 <=correct_answer:
                 result = "pass"
