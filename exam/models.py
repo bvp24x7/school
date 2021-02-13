@@ -55,7 +55,7 @@ class QuizRecords(models.Model):
     completed       = models.BooleanField(default=False)
     quiz            = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     marks           = models.IntegerField(default=0) 
-    start_time      = models.DateTimeField(auto_add_now=True)
+    start_time      = models.DateTimeField(null=True)
     # end_time        = models.DateTimeField(null=True) 
 
     def __str__(self):
