@@ -26,7 +26,7 @@ SECRET_KEY = '!dv-j=&9pjy6bgr=mhjh+zh33)6!th=(o##3&nj-5n!e6wgt$5'
 DEBUG = False
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['testinate.herokuapp.com','localhost','127.0.0.1'] 
+ALLOWED_HOSTS = ['examinn.herokuapp.com','localhost','127.0.0.1'] 
 
 # Application definition
 
