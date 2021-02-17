@@ -16,10 +16,8 @@ Completed : {{z.completed}}<br>
 {% else %} {% endcomment %}
 <p>rules for quiz</p>
 <p>please answer all the questions<br>Make sure you are prepared and have good internet connectivity before starting the quiz <br>You can attend the quiz only one time.<br>If you land into any errors please contact the support</p>
-    <button>
-    <a class = 'btn btn-primary' href = "{% url 'quest' quiz stud %}">
-	<span>start quiz</span></a>
-</button>
+    
+    <a class = 'btn btn-primary' href = "{% url 'quest' quiz stud %}">start quiz</a>
 {% comment %} {% endif %} {% endcomment %}
 {% endblock content %}
 
