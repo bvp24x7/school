@@ -84,6 +84,7 @@ def createQuestion(request):
         if form.is_valid():
             
             form.save()
+            form.cleaned
             messages.info(request,'Question created')
     
 
@@ -125,10 +126,10 @@ def questionView(request,pk):
     print('stud',stud)
     print('qz',qz)
     print(QuizRecords.objects.filter(student_id=stud,quiz_id=qz).exists())
-    if QuizRecords.objects.filter(student_id=stud,quiz_id=qz).exists():
-        q = QuizRecords.objects.filter(student_id=stud,quiz_id=qz)
-        context = {'attempted': True, 'q':q }
-        return render(request, 'exam/startquiz.html',context)
+    # if QuizRecords.objects.filter(student_id=stud,quiz_id=qz).exists():
+    #     q = QuizRecords.objects.filter(student_id=stud,quiz_id=qz)
+    #     context = {'attempted': True, 'q':q }
+    #     return render(request, 'exam/startquiz.html',context)
 
     qzr = QuizRecords()
     qzr.student = stud

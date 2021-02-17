@@ -28,7 +28,7 @@ class Quiz(models.Model):
 
 class Question(models.Model):
 
-    # number          = models.IntegerField(default=1, unique=True)
+    # number          = models.AutoField(unique=True)
     content         = models.CharField(max_length=350)
     quiz            = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 

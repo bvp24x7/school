@@ -14,7 +14,6 @@ urlpatterns = [
     path('createoptions/', views.createOptions, name='createoptions'),
 
     path('login/', views.logIn, name = 'login' ),
-    # path('login/', LoginView.as_view(template_name='exam/login.html'), name = 'login' ),
     path('register/', views.register, name ='register'),
     path('logout/', views.logOut, name='logout'),
 ]
